@@ -82,7 +82,7 @@
     	</div>
     	<div >
     		<div class="" style="width: 80%; margin: 0 auto;">
-    			<form class="form-horizontal" style="padding-top: 20px;" action="answer">
+    			<form class="form-horizontal" style="padding-top: 20px;" action="answer" method="post">
     				<div class="form-group">
 				    <label class="control-label col-sm-6" for="email">Email</label>
 				    <div class="col-sm-12">
