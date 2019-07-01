@@ -15,6 +15,16 @@
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <style type="text/css">
+  .business-header {
+    height: 300px;
+    background: url('https://images.pexels.com/photos/232/apple-iphone-books-desk.jpg?w=940&h=650&auto=compress&cs=tinysrgb') center center no-repeat scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover; 
+    -o-background-size: cover;
+}
+  </style>
 
 </head>
 
@@ -50,14 +60,20 @@
 
   <!-- Page Content -->
   <div class="container">
+  <header class="business-header">
+    <div class="container">
     <div class="row">
       <div class="col-lg-12 text-center">
-        <h1 class="banner">Get free PayTM cash</h1>
+      <hr>
+        <h1 class="tagline">Get free PayTM cash</h1>
+        <hr>
         <p>Answer the question asked on the basis of story <br>
         and get chance to win coupon of PayTM cash.</p>
         <p class="text-danger">Daily lucky 10 winners.</p>
       </div>
     </div>
+    </div>
+    </header>
     
     <div class="card">
 	  <div class="card-header">
@@ -82,7 +98,7 @@
     	</div>
     	<div >
     		<div class="" style="width: 80%; margin: 0 auto;">
-    			<form class="form-horizontal" style="padding-top: 20px;" action="answer" method="post">
+    			<form class="form-horizontal" style="padding-top: 20px;" action="answer" onsubmit="return validation()">
     				<div class="form-group">
 				    <label class="control-label col-sm-6" for="email">Email</label>
 				    <div class="col-sm-12">
@@ -92,7 +108,7 @@
 				  <div class="form-group">
 				    <label class="control-label col-sm-6" for="ans">Answer the question</label>
 				    <div class="col-sm-12">
-				      <input type="text" class="form-control" id="ans" name="uans" pattern="[0-9][a-z]{1-20}" placeholder="Enter answer here">
+				      <input type="text" class="form-control" id="ans" name="uans" placeholder="Enter answer here">
 				    </div>
 				  </div>
 				  <div class="form-group">
@@ -116,6 +132,15 @@
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.slim.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+  
+  function validation(){
+	  alert("form submitted");
+	  return true;
+  }
+  
+  </script>
 
 </body>
 

@@ -1,57 +1,74 @@
 package com.kali.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.kali.demo.dao.ResultsDao;
+import com.kali.demo.dao.ResultsServicesDao;
 import com.kali.demo.dao.UserDao;
+import com.kali.demo.model.Results;
 import com.kali.demo.model.Users;
+import com.kali.demo.services.SendMail;
 
 @Controller
 public class AppController {
 
 	@Autowired
-	UserDao dao;
+	SendMail sendMail;
 	
 	@Autowired
-    private JavaMailSender javaMailSender;
+	UserDao udao;
 	
 	@Autowired
-	private ResultsDao rdao;
+	ResultsServicesDao resultsServices;
 	
-	@Value("${correct_answer}")
-	private String correctAns;
+	@Autowired
+	Results results;
+	
 	
 	@RequestMapping("/")
 	public String home()
 	{
-		System.out.println(correctAns);
 		return "index";
 	}
 	
 	@RequestMapping("/answer")
 	public String answer(Users user)
 	{
-		dao.save(user);
+		udao.save(user);
+		System.out.println(user);
 		
-	    SimpleMailMessage msg = new SimpleMailMessage();
-	    msg.setTo(user.getUmail());
-
-	    msg.setSubject("Welcome to Rewards and Coupons. ");
-	    msg.setText("Hello "+user.getUmail() +" \nWe got your response. We will get back to you with the result. Stay tuned. \nThank You \nTeam R&C");
-
-	    javaMailSender.send(msg);
-
-
+		new Thread(() -> {
+			sendMail.responseMail(user.getUmail());
+		}).start();
+		if(resultsServices.checkAnswer(user.getUans()))
+		{
+			new Thread(() -> {
+				sendMail.correctAnsMail(user.getUmail());
+			}).start();
+			
+			results.setUid(user.getUid());
+			resultsServices.addUserToResults(results);
+		
+		}else
+		{
+			new Thread(() -> {
+				sendMail.incorrectAnsMail(user.getUmail());
+			}).start();
+			
+		}
+		
+		
 		return "index";
 	}
 	
-	public void result()
+	@RequestMapping("/results")
+	public String results(Results results)
 	{
+		resultsServices.addUserToResults(results);
+		return "success";
 		
 	}
+	
+	
+	
 }

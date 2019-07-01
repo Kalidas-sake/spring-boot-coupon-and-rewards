@@ -1,43 +1,29 @@
 package com.kali.demo.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import org.springframework.stereotype.Component;
 
 @Entity
+@Component
 public class Results {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int rid;
+	@Column(unique=true)
+	private int uid;
 	
-	@OneToOne
-	@JoinColumn(name="uid")
-	private Users user;
 
-	public int getRid() {
-		return rid;
+	public int getUid() {
+		return uid;
 	}
-
-	public void setRid(int rid) {
-		this.rid = rid;
+	public void setUid(int uid) {
+		this.uid = uid;
 	}
-
-	public Users getUser() {
-		return user;
-	}
-
-	public void setUser(Users user) {
-		this.user = user;
-	}
-
 	@Override
 	public String toString() {
-		return "Results [rid=" + rid + ", user=" + user + "]";
+		return "Results [uid=" + uid + "]";
 	}
-	
+
 	
 	
 }
