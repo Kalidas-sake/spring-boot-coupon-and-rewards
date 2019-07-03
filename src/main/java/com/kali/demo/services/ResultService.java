@@ -7,9 +7,13 @@ import org.springframework.stereotype.Component;
 
 import com.kali.demo.dao.ResultsDao;
 import com.kali.demo.dao.ResultsServicesDao;
+import com.kali.demo.dao.UserDao;
 import com.kali.demo.model.Results;
+import com.kali.demo.model.Users;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -22,36 +26,60 @@ public class ResultService implements ResultsServicesDao {
 	@Autowired
 	private ResultsDao rdao;
 	
+	@Autowired
+	SendMail sendMail;
+	
+	@Autowired
+	private UserDao udao;
+	
 	@Override
-	public boolean checkAnswer(String ans) {
-		if(correctAns.equals(ans))
-		{
-			return true;
-		}else {
-			return false;
+	//@Scheduled(cron = "0 13 22 * * ?")
+	public void checkAnswer() {
+		
+		List<Users> ulist = new ArrayList<Users>();
+		ulist = udao.findAll();
+		Iterator<Users> iterate = ulist.iterator();
+		while(iterate.hasNext()) {
+			final Users user = iterate.next();
+			final Results result;
+			if(user.getUans().equals(correctAns)) {
+				result = new Results();
+				result.setUsers(user);
+				rdao.save(result);
+				new Thread(() -> {
+					sendMail.correctAnsMail(user.getUmail());
+				}).start();
+			}
+			else
+			{
+				new Thread(() -> {
+					sendMail.incorrectAnsMail(user.getUmail());
+				}).start();
+			}
 		}
 	}
 
+	
 	@Override
-	public void addUserToResults(Results results) {
-		rdao.save(results);
-	}
-	
-	
-	@Scheduled(cron = "0 5 21 * * ?")
+	//@Scheduled(cron = "0 13 22 * * ?")
 	public void sendCoupons() {
 		//System.out.println("scheduled");
 		List<Results> lst = new ArrayList<Results>();
 		lst = rdao.findAll();
 		
-		Iterator<Results> lstit = lst.iterator();
-		while(lstit.hasNext())
+		//Iterator<Results> iterate = lst.iterator();
+		while(!lst.isEmpty())
 		{
-			System.out.println(lstit.next().getUid());
+			final Users user;
+			final Results result;
 			
+			final int size = lst.size();
+			Random rand = new Random();
+			result = lst.get(rand.nextInt(size-1));
+			System.out.println(result);
+			
+			rdao.deleteById(result.getRid());
 		}
 	}
-
-	
 	
 }

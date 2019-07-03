@@ -16,7 +16,6 @@ public class SendMail {
 	@Autowired
 	Users user;
 	
-	private String coupon= null;
 	
 	public void responseMail(String umail) {
 		SimpleMailMessage msg = new SimpleMailMessage();
@@ -32,7 +31,7 @@ public class SendMail {
 	}
 	
 	
-	public void couponMail(String umail) {
+	public void couponMail(String umail, String coupon) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 	    msg.setTo(umail);
 

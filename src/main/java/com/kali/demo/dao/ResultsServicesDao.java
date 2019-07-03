@@ -4,8 +4,10 @@ import com.kali.demo.model.Results;
 
 public interface ResultsServicesDao {
 	
-	public boolean checkAnswer(String ans);
+	public void checkAnswer();
 	
-	public void addUserToResults(Results results);
+	public void sendCoupons() ;
+	
+
 
 }
