@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GenerateCoupon {
 
-	public String getCoupon() {
+	public static String getCoupon() {
 		final int n = 10;
 
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

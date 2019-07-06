@@ -49,7 +49,7 @@
             <a class="nav-link" href="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+            <a class="nav-link" href="/services">Services</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>
@@ -113,6 +113,7 @@
 				      <input type="text" class="form-control" id="ans" name="uans" placeholder="Enter answer here">
 				    </div>
 				  </div>
+				  <div class="text-danger"><p>${ex}</p> </div>
 				  <div class="form-group">
 				    <div class="col-sm-12">
 				      <input type="submit" class="btn btn-primary">

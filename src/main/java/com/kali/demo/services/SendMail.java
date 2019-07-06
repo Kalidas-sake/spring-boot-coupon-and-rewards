@@ -1,6 +1,7 @@
 package com.kali.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class SendMail {
 	
 	
 	public void responseMail(String umail) {
+		try {
 		SimpleMailMessage msg = new SimpleMailMessage();
 	    msg.setTo(umail);
 
@@ -25,6 +27,10 @@ public class SendMail {
 	    msg.setText("Hello "+umail +" \nWe got your response. We will get back to you with the result. Stay tuned. //Ignore if found irrelevant.//  \nThank You \nTeam R&C");
 
 	    javaMailSender.send(msg);
+		}
+		catch( MailException e) {
+			System.out.println("mail exception");
+		}
 	}
 	public void resultMail(String mailId) {
 		

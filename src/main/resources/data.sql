@@ -1,0 +1,14 @@
+insert into users values(1, 'abc', 'kalidasake07@gmail.com');
+--insert into users values(2, 'qwe', 'rupalidharkar26@gmail.com');
+--insert into users values(3, 'abc', 'ashok.mandage2880hf2@gmail.com');
+--insert into users values(4, 'abc', 'mukesfhtt6868bbh@gmail.com');
+--insert into users values(5, 'abc', 'kalidasake@gmail.com');
+--insert into users values(6, 'abc', 'idigcrazysys@gmail.com');
+--insert into users values(7, 'abc', 'kalidasakejbaksa45@gmail.com');
+--
+--insert into results values(1,false,1);
+--insert into results values(2,false,3);
+--insert into results values(3,false,4);
+--insert into results values(4,false,5);
+--insert into results values(5,false,6);
+--insert into results values(6,false,7);

@@ -12,7 +12,6 @@ import com.kali.demo.model.Results;
 import com.kali.demo.model.Users;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,7 +32,7 @@ public class ResultService implements ResultsServicesDao {
 	private UserDao udao;
 	
 	@Override
-	//@Scheduled(cron = "0 13 22 * * ?")
+	@Scheduled(cron = "0 59 16 * * ?")
 	public void checkAnswer() {
 		
 		List<Users> ulist = new ArrayList<Users>();
@@ -61,25 +60,50 @@ public class ResultService implements ResultsServicesDao {
 
 	
 	@Override
-	//@Scheduled(cron = "0 13 22 * * ?")
+	@Scheduled(cron = "0 15 11 * * ?")
 	public void sendCoupons() {
 		//System.out.println("scheduled");
 		List<Results> lst = new ArrayList<Results>();
 		lst = rdao.findAll();
 		
-		//Iterator<Results> iterate = lst.iterator();
-		while(!lst.isEmpty())
-		{
-			final Users user;
-			final Results result;
-			
-			final int size = lst.size();
-			Random rand = new Random();
-			result = lst.get(rand.nextInt(size-1));
-			System.out.println(result);
-			
-			rdao.deleteById(result.getRid());
+		
+		if(rdao.findBySelected(true).isEmpty()) {
+		
+		Random rand = new Random();
+		if(lst.size()>5) {
+			for(int i=0;i<5;i++) {
+				Results result;
+				int random_result = rand.nextInt(lst.size());
+				result = lst.get(random_result);
+				while(result.isSelected()) {
+					random_result = rand.nextInt(lst.size());
+					result = lst.get(random_result);
+				}
+				String coupon = GenerateCoupon.getCoupon();
+				result.setSelected(true);
+				rdao.save(result);
+				String mail = result.getUsers().getUmail();
+				System.out.println( mail+" >>>> "+ coupon);
+				new Thread( () ->{
+				sendMail.couponMail(mail, coupon);
+				}).start();
+			}
 		}
+		else
+		{
+			for (Results results : lst) {
+				String coupon = GenerateCoupon.getCoupon();
+				results.setSelected(true);
+				rdao.save(results);
+				String mail = results.getUsers().getUmail();
+				System.out.println( mail+" >>>> "+ coupon);
+				new Thread( () ->{
+				sendMail.couponMail(mail, coupon);
+				}).start();
+			}
+		}
+	}
+		System.out.println("already iterated");
 	}
 	
 }
